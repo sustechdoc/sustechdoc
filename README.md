@@ -1,2 +1,2 @@
 # sustechdoc
-Sustech Doc
+SUSTech Doc
