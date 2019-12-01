@@ -1,0 +1,96 @@
+{#login/templates/login/index.html#}
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}主页{% endblock %}
+{% block content %}
+    {% if request.session.is_login %}
+    <h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
+<div style='width:-webkit-calc(100% );border:1px solid cadetblue;height:1px;'></div>
+  <div style="width:18%;height:600px;float:left"><!-- 左边导航栏 -->
+  <div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Compiler
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="#">Markdown</a></li>
+    <li><a href="#">Latex</a></li>
+    <li role="separator" class="divider"></li>
+    <li><a href="#">Separated link</a></li>
+  </ul>
+        </div>
+  <button type="button" class="btn btn-default btn-lg" style = 'position:absolute;bottom:0;left:0' name = 'file' onclick = 'creatFile()'>
+  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+
+      <script>
+function creatFile(){
+     var word = prompt("请输入文件名字","");
+     var post_data = {
+         'flag':0,
+    "name": word,
+  };
+
+   $.ajax({
+            type: "POST",
+                //后台处理函数的url
+            data: post_data,
+            success: function () {  //获取后台处理后传过来的result
+                alert('succeed!')
+            },
+        });
+
+}
+</script>
+</button>
+  </div>
+        <div style='width:1px;border:1px solid cadetblue;float:left;height:700px;'>
+        </div>
+
+
+
+ <div id = "show" style = "width:40%;height:666px;float:right" >
+
+ </div>
+ <div style='width:1px;border:1px solid cadetblue;float:right;height:800px;'>
+        </div>
+<div style = "width:40%;height:700px;overflow:auto;float:left">
+        <button type="button" class="btn btn-default btn-lg" onclick = 'save_file()'>
+  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
+            <script src="{% static "js/pdfobject.min.js" %}"></script>
+            <script>
+function save_file(){
+
+     var file_data = document.getElementById('file_content').innerText ;
+     var post_data = {
+         'flag':1,
+         'file_con': file_data ,
+     }
+   $.ajax({
+            type: "POST",
+                //后台处理函数的url
+            data: post_data,
+            success: function () {
+                alert('Save succeed!')
+            },
+        });
+var options = {
+    height: "800px",
+    pdfOpenParams: { view: 'FitV', page: '2' }
+};
+			PDFObject.embed('../test1.pdf','#show',options);
+}
+</script>
+
+</button>
+    <div id = "file_content" style = "height:650px;overflow:auto;" contenteditable="true">
+        你可以在这里编辑
+    </div>
+     </div>
+
+
+
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+
+    {% endif %}
+{% endblock %}

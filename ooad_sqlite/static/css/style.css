@@ -1,0 +1,64 @@
+
+/*来个渐变的背景色*/
+html{
+    background:linear-gradient(#29f9f0 0%, #1f2f80 80%);
+    height:100%;
+}
+
+div{line-height:	40px;
+    width:	400px;
+    height:	400px;
+    text-align: center;
+    color: #165080;
+    font-weight:bold;
+    margin:	40px auto 0;
+    position:relative;
+    font-size:30px
+}
+
+
+form{
+    font-size: 14px;
+    font-weight:bold;
+    background-color: rgba(10, 49, 128, 0);
+}
+
+input{
+    width:150px;
+    text-align:center;
+    color:#1B806C;
+    font-weight:bold;
+}
+
+.b1{
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin-top: 60px;
+    margin-left: 200px;
+    float:left;
+    background-color: #70a2ff;
+    border: 1px solid #d5d5d5;
+    color:#1B806C;
+    position:relative;
+}
+.b2{
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin-top: 40px;
+    margin-left: 200px;
+    float:left;
+    background-color: #70a2ff;
+    border: 1px solid #d5d5d5;
+    color:#1B806C;
+    position:relative;
+}
+
+
