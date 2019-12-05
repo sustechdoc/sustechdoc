@@ -38,4 +38,5 @@ bonus (1 point): User can initialize project folder with template(e.g. SUSTech h
 bonus (1 point): User can use GUI to implement as buttons for macro definition (e.g. Button B to make \textbf{} around text).
 
 
-## Time schedule
+## Server address
+http://134.175.12.210:8000/
