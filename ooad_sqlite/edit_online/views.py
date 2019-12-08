@@ -1,3 +1,4 @@
+# -*-coding:utf-8 -*-
 from django.shortcuts import render, redirect
 from . import models
 from .forms import UserForm,RegisterForm
@@ -11,6 +12,7 @@ import urllib
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
+import json
 def index(request):
     if request.method == 'POST':
         flag = int(request.POST['flag'])
@@ -23,7 +25,7 @@ def index(request):
     pass
     return render(request, 'login/index.html')
 
-
+succeed = True
 def login(request):
     if request.session.get('is_login', None):
         return redirect('/index')
@@ -139,14 +141,13 @@ def save_file(request):
     print(test_project.get_files_and_folders())
     test_project.build_pdf()
     compile_state, output_path, log_str = test_project.get_response()
-    print(log_str)
-    print(len(log_str))
+    #succeed=compile_state
     # markdown
     #test_project = Markdown2html('test_md', 'test.md')
     #md_html = test_project.get_html()
    # print(test_project.get_html())
-    return render(request, 'login/index.html')
-
+   # return render(request, 'login/index.html',{'b':json.dumps({ 'flag':156, 'file_con': 456 ,})})
+    return HttpResponse(json.dumps({ 'if':compile_state,'err':log_str,}))
 def downPDF(request):
     # Create a file-like buffer to receive PDF data.
     response = HttpResponse(content_type='application/pdf',charset = 'utf-8')
@@ -154,5 +155,6 @@ def downPDF(request):
     return response
 
 def printPDF(request):
-    response = FileResponse(open('./test1/test1.pdf', 'rb'), content_type='application/pdf')
-    return response
+    if succeed:
+        response = FileResponse(open('./test1/test1.pdf', 'rb'), content_type='application/pdf')
+        return response

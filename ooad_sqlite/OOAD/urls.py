@@ -26,6 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'', views.index),
     path(r'index/', views.index),
+    path(r'save', views.save_file),
     path(r'test1.pdf', views.printPDF),
     path(r'downloadPdf', views.downPDF),
     path(r'login/', views.login),

@@ -60,30 +60,78 @@ function creatFile(){
             <script>
 function save_file(){
 
-     var file_data = document.getElementById('file_content').innerText ;
+     //var file_data = $("#content").text(editor.getValue().text());
+    var file_data = editor.getValue();
+     alert(file_data)
+     var if_sucess = false;
+     var errors = 'good'
+     var getPdf = function(){
+          var options = {
+    height: "800px",
+    pdfOpenParams: { view: 'FitV', page: '2' }
+};
+			PDFObject.embed('../test1.pdf','#show',options);
+     }
+
      var post_data = {
          'flag':1,
          'file_con': file_data ,
      }
    $.ajax({
             type: "POST",
+            url:"../save",
                 //后台处理函数的url
             data: post_data,
-            success: function () {
-                alert('Save succeed!')
+            success: function (response) {
+                data=JSON.parse(response)
+                if_sucess = data['if']
+                alert(if_sucess)
+                errors = data['err']
+                alert(errors)
+                if(if_sucess){
+                    getPdf();
+                }else{
+                    document.getElementById("show").innerHTML = errors;
+                }
             },
         });
-var options = {
-    height: "800px",
-    pdfOpenParams: { view: 'FitV', page: '2' }
-};
-			PDFObject.embed('../test1.pdf','#show',options);
+
 }
 </script>
 
 </button>
-    <div id = "file_content" style = "height:650px;overflow:auto;" contenteditable="true">
-        你可以在这里编辑
+    <div id = "file_content" style = "height:650px;overflow:auto;" >
+        <link rel="stylesheet" href="{% static "codemirror-5.49.2/lib/codemirror.css"%}"/>
+        <script src="{% static "codemirror-5.49.2/lib/codemirror.js"%}"></script>
+        <script src="{% static "codemirror-5.49.2/mode/markdown/markdown.js" %}"></script>
+        <script src="{% static "codemirror-5.49.2/mode/stex/stex.js" %}"></script>
+        <script src="{% static "codemirror-5.49.2/mode/python/python.js" %}"></script>
+        <link rel="stylesheet" href="{% static "codemirror-5.49.2/theme/midnight.css" %}"/>
+        <link rel="stylesheet" href="{% static "codemirror-5.49.2/addon/fold/foldgutter.css" %}"/>
+        <script src="{% static "codemirror-5.49.2/addon/fold/foldcode.js" %}"></script>
+        <script src="{% static "codemirror-5.49.2/addon/fold/foldgutter.js" %}"></script>
+        <script src="{% static "codemirror-5.49.2/addon/fold/brace-fold.js" %}"></script>
+        <script src="{% static "codemirror-5.49.2/addon/fold/comment-fold.js" %}"></script>
+        <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+        <script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
+        <textarea class="form-control" id="code" name="code"></textarea>
+                <script type="text/javascript">
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "markdown",    //实现groovy代码高亮
+            mode: "python",
+            //mode:"LaTex",
+            lineNumbers: true,	//显示行号
+            indentUnit:4,             // 缩进单位为4
+            indentWithTabs: true,     //
+            smartIndent: true,
+            theme: 'midnight',	//设置主题
+            lineWrapping: true,	//代码折叠
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            matchBrackets: true,
+            autoCloseBrackets: true,});
+        editor.setSize('800px', '950px');
+    </script>
     </div>
      </div>
 
