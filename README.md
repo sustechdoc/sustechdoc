@@ -6,26 +6,34 @@
 - 没了
 
 ## Time Schedule 时间安排
+
 第十六周的周四答辩 12月26日  
 
 ## The markdown part
+
 We want to learn from https://zybuluo.com/mdeditor and https://hacpai.com/guide/markdown
 
 ## The latex part
+
 refer https://www.overleaf.com
 
 
 ## ZexinLee Requirements!!! from [SUSTech-Doc-Guidance](https://github.com/ZexinLee/SUSTech-Doc-Guidance)
+
 Requirements
+
 ### Basic requirements:
 
-- [ ] 普通文本编辑
+- [x] 普通文本编辑
 - [ ] 确保网页无bug
-- [ ] 基本文件管理: 重命名, 删除, 复制 多个文件
+- [x] 基本文件管理: 重命名, 删除, 复制 多个文件
 - [ ] 上传zip文件
 - [ ] 选择不同的网站主题
-- [ ] 设置文档权限(先实现单人编辑, 多人查看; 再实现多人编辑查看)
+- [x] 设置文档权限
+- [ ] 多人查看
+- [ ] 多人编辑查看
 - [ ] 全文搜索
+- [ ] 上传图片
 
 ### Bonus requirements:
 
@@ -39,4 +47,5 @@ bonus (1 point): User can use GUI to implement as buttons for macro definition (
 
 
 ## Server address
-http://134.175.12.210:8000/
+
+http://134.175.12.210:8080/
