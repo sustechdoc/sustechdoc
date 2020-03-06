@@ -14,5 +14,7 @@ class Markdown2html:
     def get_html(self):
         input_file = codecs.open(self.__document_path, mode="r", encoding="utf-8")
         text = input_file.read()
-        html = markdown.markdown(text)
+        html = markdown.markdown(text, extensions = [
+           'toc','nl2br','sane_lists','tables', 'fenced_code'])
+        print(html)
         return html

@@ -4,141 +4,648 @@
 {% block title %}主页{% endblock %}
 {% block content %}
     {% if request.session.is_login %}
-    <h1>你好,{{ request.session.user_name }}！欢迎回来！</h1>
-<div style='width:-webkit-calc(100% );border:1px solid cadetblue;height:1px;'></div>
-  <div style="width:18%;height:600px;float:left"><!-- 左边导航栏 -->
-  <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    Compiler
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-    <li><a href="#">Markdown</a></li>
-    <li><a href="#">Latex</a></li>
-    <li role="separator" class="divider"></li>
-    <li><a href="#">Separated link</a></li>
-  </ul>
+        <div class="modal fade" id="changecolor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Choose Color</h4>
+                        <button type="button" class="btn btn-default" ><a href="#" data-theme="default" class="theme-link">default</a></button>
+            <button type="button" class="btn btn-default" onclick = "changeTheme()"> <a href="#" data-theme="darkly" class="theme-link">darkly</a></button>
+        <button type="button" class="btn btn-default" ><a href="#" data-theme="flatly" class="theme-link">flatly</a></button>
+                         <button type="button" class="btn btn-default" > <a href="#" data-theme="cerulean" class="theme-link">cerulean</a></button>
+               <button type="button" class="btn btn-default" > <a href="#" data-theme="journal" class="theme-link">journal</a></button>
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
         </div>
-  <button type="button" class="btn btn-default btn-lg" style = 'position:absolute;bottom:0;left:0' name = 'file' onclick = 'creatFile()'>
-  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-
-      <script>
-function creatFile(){
-     var word = prompt("请输入文件名字","");
-     var post_data = {
-         'flag':0,
-    "name": word,
-  };
-
-   $.ajax({
-            type: "POST",
-                //后台处理函数的url
-            data: post_data,
-            success: function () {  //获取后台处理后传过来的result
-                alert('succeed!')
-            },
-        });
-
-}
-</script>
-</button>
-  </div>
-        <div style='width:1px;border:1px solid cadetblue;float:left;height:700px;'>
+        <div class="modal fade" id="invite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">INVITE OTHERS</h4>
+                    </div>
+                    <div class="modal-body">
+                        {#                        <form class="navbar-form navbar-left" role="search">#}
+                        <div class="form-group">
+                            <input id="invite_id" type="text" class="form-control" placeholder="USER_ID">
+                        </div>
+                        <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio1" value="1"> writable
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio2" value="0"> unwritable
+                            </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="invite()">Submit</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Creat File</h4>
+                    </div>
+                    <div class="modal-body">
+                        {#                        <form class="navbar-form navbar-left" role="search">#}
+                        <div class="form-group">
+                            <input id="input_name" type="text" class="form-control" placeholder="Name">
+                        </div>
+                        {% if request.session.cur_type == "tex" %}
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio1" value="1"> 模板一
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio2" value="2"> 模板二
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio2" value="3"> 模板三
+                            </label>
+                        {% endif %}
+                        {#                        </form>#}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="creatFile()">Submit</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        {#<div style='width:-webkit-calc(100% );border:1px solid cadetblue;height:1px;'></div>#}
+        <div id="up_file" class="container" style="display:none">
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="form-group">
+                        <input type="file" id="choose_file">
+                    </div>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col">
+                    <button type="button" style="font-size:15px" class="btn btn-primary" onclick="upload_file()">
+                        confirm
+                    </button>
+                </div>
+            </div>
         </div>
 
 
+        <div style="width:18%;float:left"><!-- 左边导航栏 -->
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-folder-close"
+                                                                    aria-hidden="true" onclick=creatFold()></span>
+                </button>
+                <button type="button" data-toggle="modal" data-target="#myModal" class="btn btn-default"><span
+                        class="glyphicon glyphicon-file" aria-hidden="true"
+                ></span></button>
+                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-cloud-upload"
+                                                                    aria-hidden="true" onclick=show_up()></span>
+                </button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#changecolor"><span
+                        class="glyphicon glyphicon-refresh"
+                        aria-hidden="true"></span></button>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#invite"><span
+                        class="glyphicon glyphicon-user"
+                        aria-hidden="true"></span></button>
+{#                <button id='head_tex' class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"#}
+{#                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">#}
+{#                    Compiler#}
+{#                    <span class="caret"></span>#}
+{#                </button>#}
+{#                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">#}
+{#                    <li><a id='1' href="#" onclick=setLatex(this.id)>xelatex</a></li>#}
+{#                    <li><a id='2' href="#" onclick=setLatex(this.id)>lualatex</a></li>#}
+{#                    <li><a id='3' href="#" onclick=setLatex(this.id)>pdflatex</a></li>#}
+{#                    <li><a id='4' href="#" onclick=setLatex(this.id)>latex</a></li>#}
+{#                    <script>#}
+{#                        function setLatex(ii) {#}
+{#                            var choose_tex = document.getElementById(ii).textContent#}
+{#                            document.getElementById('head_tex').innerHTML = choose_tex + " " + '<span class="caret"></span>'#}
+{#                        }#}
+{#                    </script>#}
+{#                </ul>#}
 
- <div id = "show" style = "width:40%;height:666px;float:right" >
 
- </div>
- <div style='width:1px;border:1px solid cadetblue;float:right;height:800px;'>
+            </div>
+            <ol id="all_file_url" class="breadcrumb">
+                {% for item in url %}
+                    <li><a id=fold{{ item.0 }}{{ item.1 }} href="#" onclick="jump_fold(this.id)">{{ item.1 }}</a></li>
+                {% endfor %}
+            </ol>
+            <div id="file_list">
+                {% for item in file_names %}
+                    <a class="list-group-item" href="#" onclick="open_file(this)">
+                        {% if item.0 %}
+                            <span class="glyphicon glyphicon-file"
+                                  aria-hidden="true"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+                        {% endif %}{{ item.1 }}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
-<div style = "width:40%;height:700px;overflow:auto;float:left">
-        <button type="button" class="btn btn-default btn-lg" onclick = 'save_file()'>
-  <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Save
-            <script src="{% static "js/pdfobject.min.js" %}"></script>
-            <script>
-function save_file(){
+        <div style="width:42%;float:right">
+            <div>
+                {#  <button type="button" class="btn btn-primary">Save</button>#}
+                {#  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                {#    <span class="caret"></span>#}
+                {#    <span class="sr-only">Toggle Dropdown</span>#}
+                {#  </button>#}
+                <button type="button" class="btn btn-primary" data-loading-text="Loading..." onclick='save_file(this)'>
+                    Save
 
-     //var file_data = $("#content").text(editor.getValue().text());
-    var file_data = editor.getValue();
-     alert(file_data)
-     var if_sucess = false;
-     var errors = 'good'
-     var getPdf = function(){
-          var options = {
-    height: "800px",
-    pdfOpenParams: { view: 'FitV', page: '2' }
-};
-			PDFObject.embed('../test1.pdf','#show',options);
-     }
+                    <script>
 
-     var post_data = {
-         'flag':1,
-         'file_con': file_data ,
-     }
-   $.ajax({
-            type: "POST",
-            url:"../save",
-                //后台处理函数的url
-            data: post_data,
-            success: function (response) {
-                data=JSON.parse(response)
-                if_sucess = data['if']
-                alert(if_sucess)
-                errors = data['err']
-                alert(errors)
-                if(if_sucess){
-                    getPdf();
-                }else{
-                    document.getElementById("show").innerHTML = errors;
-                }
-            },
-        });
+                    </script>
+                </button>
 
-}
-</script>
+            </div>
+            <div id="show">
 
-</button>
-    <div id = "file_content" style = "height:650px;overflow:auto;" >
-        <link rel="stylesheet" href="{% static "codemirror-5.49.2/lib/codemirror.css"%}"/>
-        <script src="{% static "codemirror-5.49.2/lib/codemirror.js"%}"></script>
-        <script src="{% static "codemirror-5.49.2/mode/markdown/markdown.js" %}"></script>
-        <script src="{% static "codemirror-5.49.2/mode/stex/stex.js" %}"></script>
-        <script src="{% static "codemirror-5.49.2/mode/python/python.js" %}"></script>
-        <link rel="stylesheet" href="{% static "codemirror-5.49.2/theme/midnight.css" %}"/>
-        <link rel="stylesheet" href="{% static "codemirror-5.49.2/addon/fold/foldgutter.css" %}"/>
-        <script src="{% static "codemirror-5.49.2/addon/fold/foldcode.js" %}"></script>
-        <script src="{% static "codemirror-5.49.2/addon/fold/foldgutter.js" %}"></script>
-        <script src="{% static "codemirror-5.49.2/addon/fold/brace-fold.js" %}"></script>
-        <script src="{% static "codemirror-5.49.2/addon/fold/comment-fold.js" %}"></script>
-        <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
-        <script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
-        <textarea class="form-control" id="code" name="code"></textarea>
+            </div>
+        </div>
+        <div style="width:40%;overflow:auto;float:left">
+
+            <div id="file_content" style="overflow:auto;">
+                <link rel="stylesheet" href="{% static "codemirror-5.49.2/lib/codemirror.css" %}"/>
+                <script src="{% static "codemirror-5.49.2/lib/codemirror.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/mode/markdown/markdown.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/mode/stex/stex.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/mode/python/python.js" %}"></script>
+                <link rel="stylesheet" href="{% static "codemirror-5.49.2/theme/3024-day.css" %}"/>
+                <link rel="stylesheet" href="{% static "codemirror-5.49.2/theme/darcula.css" %}"/>
+                <link rel="stylesheet" href="{% static "codemirror-5.49.2/addon/fold/foldgutter.css" %}"/>
+                <script src="{% static "codemirror-5.49.2/addon/fold/foldcode.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/addon/fold/foldgutter.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/addon/fold/brace-fold.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/addon/fold/comment-fold.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/addon/edit/matchbrackets.js" %}"></script>
+                <script src="{% static "codemirror-5.49.2/addon/edit/closebrackets.js" %}"></script>
+                <textarea class="form-control" id="code" name="code"></textarea>
                 <script type="text/javascript">
-        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-            mode: "markdown",    //实现groovy代码高亮
-            mode: "python",
-            //mode:"LaTex",
-            lineNumbers: true,	//显示行号
-            indentUnit:4,             // 缩进单位为4
-            indentWithTabs: true,     //
-            smartIndent: true,
-            theme: 'midnight',	//设置主题
-            lineWrapping: true,	//代码折叠
-            foldGutter: true,
-            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-            matchBrackets: true,
-            autoCloseBrackets: true,});
-        editor.setSize('800px', '950px');
-    </script>
-    </div>
-     </div>
+
+                </script>
+            </div>
+        </div>
 
 
 
     {% else %}
-    <h1>你尚未登录，只能访问公开内容！</h1>
+        <h1>你尚未登录，只能访问公开内容！</h1>
 
     {% endif %}
+     <script src="{% static 'js/jquery-3.2.1.js' %}"></script>
+     <script src="{% static "js/pdfobject.min.js" %}"></script>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "markdown",    //实现groovy代码高亮
+            mode: "python",
+           // mode:"latex",
+            lineNumbers: true,	//显示行号
+            indentUnit: 4,             // 缩进单位为4
+            indentWithTabs: true,     //
+            smartIndent: true,
+            theme: 'darcula',	//设置主题
+            lineWrapping: true,	//代码折叠
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            matchBrackets: true,
+            autoCloseBrackets: true,
+        });
+        editor.setSize('800px', '700px');
+        editor.on("change", function (editor, changes) {
+            while (changes) {
+                if (true) {
+                    var md_data = {"md_data": editor.getValue()};
+                    $.ajax({
+                        type: "POST",
+                        url: "../updateMd",
+                        //后台处理函数的url
+                        data: md_data,
+                        success: function (response) {
+                            document.getElementById("show").innerHTML = response;
+                            //alert(document.getElementById("show").innerHTML);
+                        },
+                    });
+                }
+                change = change.next;
+            }
+
+        });
+
+        //
+        function open_file(a) {
+            // alert("open");
+            var base_url = document.getElementById("all_file_url").getElementsByTagName("li", ":before")
+            var url_list = "";
+            var i = 0
+            while (i < base_url.length) {
+                //   alert(base_url[i].innerText);
+                url_list = url_list + "/" + base_url[i].innerText;
+                i += 1;
+            }
+            url_list = url_list + "/" + a.innerText;
+            //  alert(url_list);
+            $.ajax({
+                type: "POST",
+                data: {"url_list": url_list},
+                dataType: "json",
+                url: "../index/open_pro_fold",
+                success: function (data) {
+                    var li_con = "";
+                    var i = 0;
+                    if (data["is_file"] == false) {
+                        while (i < data['url'].length) {
+                            var newli = "<li><a id =\"fold" + data["url"][i][0] + data["url"][i][1] + "\" href = \"#\" onclick =\"jump_fold(this.id)\">" + data["url"][i][1] + "</a></li>\n";
+                            li_con = li_con + newli;
+                            //    alert(newli);
+                            i += 1;
+                        }
+                        document.getElementById("all_file_url").innerHTML = li_con;
+                        var j = 0;
+                        // var fff = data["file_names"];
+                        //  alert(fff.length);
+                        var newa = "";
+
+                        while (j < data["file_names"].length) {
+                            //  alert("kaishi");
+                            var a1la = "";
+                            alla = "<a class = \"list-group-item\" href = \"#\" onclick = \"open_file(this)\">";
+                            //   alert(alla);
+                            // alert(data["file_names"][j][0])
+                            if (data["file_names"][j][0]) {
+                                //  alert("com")
+                                var span = "";
+                                span = "<span class = \"glyphicon glyphicon-file\" aria-hidden = \"true\"</span>";
+                                //   alert(span);
+                                alla = alla + span;
+                                //   alert(alla);
+                            } else {
+                                var span = "";
+                                span = "<span class = \"glyphicon glyphicon-folder-close\" aria-hidden = \"true\"</span>";
+                                alla = alla + span;
+                            }
+                            var lasa = "";
+                            lasa = data["file_names"][j][1] + "</a>\n";
+                            alla += lasa;
+                            //alert(alla);
+                            newa = newa + alla;
+                            j += 1;
+                        }
+                        // alert(newa);
+                        document.getElementById("file_list").innerHTML = newa;
+                    } else {
+                        //alert(data["content"])
+                        editor.setValue(data["content"].toString());
+                    }
+
+
+                }
+            })
+        }
+
+        function jump_fold(id) {
+            var temp = id.substring(4, 5);
+            //   alert(temp)
+            temp = parseInt(temp);
+            var jump = "";
+            var k = 0;
+            var ttt = document.getElementById("all_file_url").getElementsByTagName("li", ":before")
+            while (k <= temp) {
+                var text = ttt[k].innerText;
+                jump = jump + "/" + text;
+                k += 1;
+            }
+            $.ajax({
+                type: "POST",
+                data: {"url_list": jump},
+                dataType: "json",
+                url: "../index/open_pro_fold",
+                success: function (data) {
+                    var li_con = "";
+                    var i = 0;
+                    while (i < data['url'].length) {
+                        var newli = "<li><a id =\"fold" + data["url"][i][0] + data["url"][i][1] + "\" href = \"#\" onclick =\"jump_fold(this.id)\">" + data["url"][i][1] + "</a></li>\n";
+                        li_con = li_con + newli;
+                        //    alert(newli);
+                        i += 1;
+                    }
+                    document.getElementById("all_file_url").innerHTML = li_con;
+                    var j = 0;
+                    // var fff = data["file_names"];
+                    //  alert(fff.length);
+                    var newa = "";
+
+                    while (j < data["file_names"].length) {
+                        //   alert("kaishi");
+                        var a1la = "";
+                        alla = "<a class = \"list-group-item\" href = \"#\" onclick = \"open_file(this)\">";
+                        // alert(alla);
+                        //  alert(data["file_names"][j])
+                        if (data["file_names"][j][0]) {
+                            var span = "";
+                            span = "<span class = \"glyphicon glyphicon-file\" aria-hidden = \"true\"</span>";
+                            //    alert(span);
+                            alla = alla + span;
+                            //  alert(alla);
+                        } else {
+                            var span = "";
+                            span = "<span class = \"glyphicon glyphicon-folder-close\" aria-hidden = \"true\"</span>";
+                            alla = alla + span;
+                        }
+                        var lasa = "";
+                        lasa = data["file_names"][j][1] + "</a>\n";
+                        alla += lasa;
+                        //alert(alla);
+                        newa = newa + alla;
+                        j += 1;
+                    }
+                    //alert(newa);
+                    document.getElementById("file_list").innerHTML = newa;
+                }
+            })
+        }
+
+        function creatFold() {
+            var base_url = document.getElementById("all_file_url").getElementsByTagName("li", ":before")
+            var url_list = "";
+            var i = 0
+            while (i < base_url.length) {
+                //   alert(base_url[i].innerText);
+                url_list = url_list + base_url[i].innerText + "/";
+                i += 1;
+            }
+            var word = prompt("请输入文件夹名字", "");
+            var post_data = {
+                "position": url_list,
+                "name": word,
+            };
+            $.ajax({
+                dataType:"json",
+                type: "POST",
+                url: "../creat_fold",
+                //后台处理函数的url
+                data: post_data,
+                success: function (data) {  //获取后台处理后传过来的result
+                    if(data["is_ok"]){
+                        alert("ok")
+                    location.reload()
+                    }else{
+                        alert("you have no right")
+                    }
+
+                },
+            });
+        }
+
+        function creatFile() {
+            var base_url = document.getElementById("all_file_url").getElementsByTagName("li", ":before")
+            var url_list = "";
+            var i = 0
+            while (i < base_url.length) {
+                //   alert(base_url[i].innerText);
+                url_list = url_list + base_url[i].innerText + "/";
+                i += 1;
+            }
+            var word = document.getElementById("input_name").value;
+            var mode = $('input:radio:checked').val();
+            alert(mode)
+            var post_data = {
+                'mode': mode,
+                "name": word,
+                "position": url_list
+            };
+            $.ajax({
+                type: "POST",
+                url: "../creat_file",
+                dataType:"json",
+                //后台处理函数的url
+                data: post_data,
+                success: function (data) {  //获取后台处理后传过来的result
+                    if(data["is_ok"]){
+                        alert('succeed!')
+                    //
+                    location.reload()
+                    refresh(url_list);
+                    }else{
+                        alert("you have no right")
+                    }
+
+                },
+            });
+        }
+
+        function show_up() {
+            if (document.getElementById("up_file").style.display == "block") {
+                document.getElementById("up_file").style.display = "none"
+            } else {
+                document.getElementById("up_file").style.display = "block"
+            }
+
+            //
+        }
+
+        function upload_file() {
+            var base_url = document.getElementById("all_file_url").getElementsByTagName("li", ":before")
+            var url_list = "";
+            var i = 0
+            while (i < base_url.length) {
+                //   alert(base_url[i].innerText);
+                url_list = url_list + base_url[i].innerText + "/";
+                i += 1;
+            }
+            var choose_file = document.getElementById("choose_file").files[0];
+            var choose_file_name = choose_file.name;
+            alert(choose_file_name)
+            var formData = new FormData();
+            formData.append("upload_file", choose_file);
+            formData.append("file_name", choose_file_name.toString());
+            formData.append("position", url_list);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "../upload_file",
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    if(response["is_ok"]){
+                        alert("ok!")
+                    }else{
+                        alert("you have no right")
+                    }
+                }
+            })
+
+        }
+
+        function refresh(address) {
+            $.ajax({
+                type: "POST",
+                data: {"url_list": address},
+                dataType: "json",
+                url: "../index/open_pro_fold",
+                success: function (data) {
+                    var li_con = "";
+                    var i = 0;
+                    while (i < data['url'].length) {
+                        var newli = "<li><a id =\"fold" + data["url"][i][0] + data["url"][i][1] + "\" href = \"#\" onclick =\"jump_fold(this.id)\">" + data["url"][i][1] + "</a></li>\n";
+                        li_con = li_con + newli;
+                        //    alert(newli);
+                        i += 1;
+                    }
+                    document.getElementById("all_file_url").innerHTML = li_con;
+                    var j = 0;
+                    // var fff = data["file_names"];
+                    //  alert(fff.length);
+                    var newa = "";
+
+                    while (j < data["file_names"].length) {
+                        //   alert("kaishi");
+                        var a1la = "";
+                        alla = "<a class = \"list-group-item\" href = \"#\" onclick = \"open_file(this)\">";
+                        // alert(alla);
+                        //  alert(data["file_names"][j])
+                        if (data["file_names"][j][0]) {
+                            var span = "";
+                            span = "<span class = \"glyphicon glyphicon-file\" aria-hidden = \"true\"</span>";
+                            //    alert(span);
+                            alla = alla + span;
+                            //  alert(alla);
+                        } else {
+                            var span = "";
+                            span = "<span class = \"glyphicon glyphicon-folder-close\" aria-hidden = \"true\"</span>";
+                            alla = alla + span;
+                        }
+                        var lasa = "";
+                        lasa = data["file_names"][j][1] + "</a>\n";
+                        alla += lasa;
+                        //alert(alla);
+                        newa = newa + alla;
+                        j += 1;
+                    }
+                    //alert(newa);
+                    document.getElementById("file_list").innerHTML = newa;
+                }
+            })
+        }
+        var themes = {
+            "default": "//cdn.bootcss.com/bootswatch/3.3.7/readable/bootstrap.css",
+            "journal": "//cdn.bootcss.com/bootswatch/3.3.7/journal/bootstrap.css",
+            "cerulean": "//cdn.bootcss.com/bootswatch/3.3.7/cerulean/bootstrap.css",
+            "darkly": "//cdn.bootcss.com/bootswatch/3.3.7/darkly/bootstrap.css",
+            "flatly": "//cdn.bootcss.com/bootswatch/3.3.7/flatly/bootstrap.css",
+
+        }
+        $(function () {
+            var themesheet = $('<link href="' + themes['darkly'] + '" rel="stylesheet" />');
+            themesheet.appendTo('head');
+            $('.theme-link').click(function () {
+                var themeurl = themes[$(this).attr('data-theme')];
+                themesheet.attr('href', themeurl);
+            });
+        });
+
+        function invite(){
+             var word = document.getElementById("invite_id").value;
+              var right = $('input:radio:checked').val();
+             let sta = new RegExp(/\d{8}$/);
+             if(sta.test(word) && word.length == 8){
+                 $.ajax({
+                     type:"POST",
+                     dataType:"json",
+                     data:{"invited":word , "right":right},
+                     url:"../invite_other",
+                     success:function(data){
+                         if(!data["is_oo"]){
+                             alert("you have no right")
+                         }else{
+                             alert(data["is_ok"])
+                            if(data["is_ok"] == 0){
+                                alert("ok!")
+                            }else if(data["is_ok"] == 2){
+                                alert("can not find")
+                            }else{
+                                alert("you have added before")
+                            }
+                         }
+
+                     }
+                 })
+             }else{
+                 alert("Please input the correct id(8 digitals)")
+             }
+        }
+
+        function save_file(button) {
+                            var btn = $(button).button('loading')
+                            //var file_data = $("#content").text(editor.getValue().text());
+                            var file_data = editor.getValue();
+                            alert(file_data)
+                            var if_sucess = false;
+                            var errors = 'good'
+                            var getPdf = function () {
+                                var options = {
+                                    height: "800px",
+                                    pdfOpenParams: {view: 'FitV', page: '2'}
+                                };
+                                PDFObject.embed('../test1.pdf', '#show', options);
+                            }
+
+                            var post_data = {
+                                'flag': 1,
+                                'file_con': file_data,
+                            }
+                            $.ajax({
+                                type: "POST",
+                                url: "../save",
+                                //后台处理函数的url
+                                data: post_data,
+                                success: function (response) {
+                                    data = JSON.parse(response)
+                                    if (data["is_ok"]){
+                                        if(data["which_type"] == "tex"){
+                                         if_sucess = data['if']
+                                    alert(if_sucess)
+                                    errors = data['err']
+                                    alert(errors)
+                                    if (if_sucess) {
+                                        getPdf();
+                                        btn.button('reset');
+                                    } else {
+                                        document.getElementById("show").innerHTML = errors;
+                                        btn.button('reset');
+                                    }
+                                    }else{
+                                         btn.button('reset');
+                                    }
+                                    }else{
+                                        alert("you have no right")
+                                    }
+                                },
+                            });
+
+                        }
+
+
+
+    </script>
 {% endblock %}

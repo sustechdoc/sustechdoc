@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}主页{% endblock %}
+
+{% block content %}
+    {% if request.session.is_login %}
+
+        <div class="list-group">
+        <a href="#" data-theme="darkly" class="theme-link"></a>
+            <a class="list-group-item active">
+                我创建的project
+            </a>
+            {% for item in pro_names %}
+                <a href=../index/{{ item.1 }} class="list-group-item">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                    {{ item.0 }}</a>
+                <p></p>
+            {% endfor %}
+        </div>
+        <div class="list-group">
+            <a class="list-group-item active">
+                我可以查看的project
+            </a>
+            {% for item in pro_names2 %}
+                <a href=../index/{{ item.1 }} class="list-group-item">
+                    <span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+                    {{ item.0 }}</a>
+                <p></p>
+            {% endfor %}
+        </div>
+
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button>
+        <!-- 模态框（Modal） -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">Creat Project</h4>
+                    </div>
+                    <div class="modal-body">
+{#                        <form class="navbar-form navbar-left" role="search">#}
+                            <div class="form-group">
+                                <input id = "input_name" type="text" class="form-control" placeholder="Name">
+                            </div>
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio1" value="md"> Markdown
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" name="aaa" id="radio2" value="tex"> Latex
+                            </label>
+{#                        </form>#}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" onclick="creatPro()">Submit</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    {% else %}
+        <h1>你尚未登录，只能访问公开内容！</h1>
+
+    {% endif %}
+      <script src="{% static 'js/jquery-3.2.1.js' %}"></script>
+    <script>
+        function creatPro() {
+          //  alert("ssss")
+            var pro_name = document.getElementById("input_name").value;
+            var type = $('input:radio:checked').val();
+            if(pro_name != "null" && type != "null"){
+                 var post_data = {
+                'type': type,
+                "name": pro_name,
+            };
+            $.ajax({
+                type: "POST",
+                url: "../creat_pro",
+                //后台处理函数的url
+                data: post_data,
+                success: function () {  //获取后台处理后传过来的result
+                    alert(pro_name+ "project is created successfully!")
+                    location.reload()
+                },
+            });
+            }
+
+
+        }
+
+        var themes = {
+            "default": "//cdn.bootcss.com/bootswatch/3.3.7/readable/bootstrap.css",
+            "journal": "//cdn.bootcss.com/bootswatch/3.3.7/journal/bootstrap.css",
+            "cerulean": "//cdn.bootcss.com/bootswatch/3.3.7/cerulean/bootstrap.css",
+            "darkly": "//cdn.bootcss.com/bootswatch/3.3.7/darkly/bootstrap.css",
+            "flatly": "//cdn.bootcss.com/bootswatch/3.3.7/flatly/bootstrap.css",
+
+        }
+        $(function () {
+            var themesheet = $('<link href="' + themes['darkly'] + '" rel="stylesheet" />');
+            themesheet.appendTo('head');
+            $('.theme-link').click(function () {
+                var themeurl = themes[$(this).attr('data-theme')];
+                themesheet.attr('href', themeurl);
+            });
+        });
+    </script>
+{% endblock %}

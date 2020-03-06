@@ -1,0 +1,11 @@
+# Fdb version 3
+["pdflatex"] 1577414685 "/home/ubuntu/ooad_sqlite/Projects/11712325_asdas/aaa.tex" "aaa.pdf" "aaa" 1577414685
+  "/home/ubuntu/ooad_sqlite/Projects/11712325_asdas/aaa.tex" 1577414685 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "/usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf" 1570742662 39452 758acee3f2beaeeedff570c5f5d76d98 ""
+  "/usr/local/texlive/2019/texmf-var/web2c/xetex/xelatex.fmt" 1572368503 3765665 5b6ebeb945e5ed364174fdd8022aab93 ""
+  "/usr/local/texlive/2019/texmf.cnf" 1572361649 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
+  "aaa.aux" 1577414685 8 a94a2480d3289e625eea47cd1b285758 ""
+  "aaa.tex" 1577414685 0 d41d8cd98f00b204e9800998ecf8427e ""
+  (generated)
+  "aaa.pdf"
+  "aaa.log"

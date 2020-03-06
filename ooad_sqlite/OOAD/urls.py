@@ -24,13 +24,23 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'', views.index),
-    path(r'index/', views.index),
+    path(r'', views.initial),
+    path(r'initial/', views.initial),
+    #path(r'root', views.go_root),
+   # path(r'open_fold', views.open_fold),
+    path(r'creat_fold', views.creat_fold),
+    path(r'index/<int:project_id>', views.index),
+    path(r'index/open_pro_fold', views.open_cur_pro_fold),
     path(r'save', views.save_file),
+    path(r'creat_pro', views.creat_project),
+    path(r'creat_file', views.creat_file),
+    path(r'updateMd', views.update_md),
     path(r'test1.pdf', views.printPDF),
     path(r'downloadPdf', views.downPDF),
     path(r'login/', views.login),
     path(r'register/', views.register),
     path(r'logout/', views.logout),
-    path(r'captcha', include('captcha.urls'))
+    path(r'captcha', include('captcha.urls')),
+    path(r'upload_file', views.upload),
+    path(r'invite_other', views.invite),
 ]

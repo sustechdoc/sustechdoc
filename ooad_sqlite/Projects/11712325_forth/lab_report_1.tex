@@ -1,0 +1,119 @@
+
+\include{base}
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Report for NCS Parameter Tuning} % Title
+
+\author{
+	Zhang Yuefei\\
+	11713021
+} % Author name
+
+\date{\today} % Date for the report
+
+\begin{document}
+
+
+\maketitle % Insert the title, author and date
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale=0.5]{SUSTech_University_Logo.png} % Include the logo
+	\end{center}
+\end{figure}
+\clearpage	% add a new page
+
+
+
+\tableofcontents	% [toc]
+\clearpage
+% If you wish to include an abstract, uncomment the lines below
+% \begin{abstract}
+% Abstract text
+% \end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Algorithm Description}
+\subsection{Main idea of NCS}
+When a team of person deal with a complex task, members of the team tend to cooperate by handling different parts of the task and avoid the same part being done by multiple person. This idea will improve the work efficiency and also inspiring NCS\cite{ncs}, a new population-based search method, which run multiple search processes in parallel and share information between each process to promote a process to search the regions that have not covered before.
+\subsection{Application of NCS}
+NCS could be use on synthesis of unequally spaced antenna arrays, and other complex (typically non-convex) optimization problems which are ubiquitous in communications and big data analytics\cite{ncs}.
+\subsection{Main idea of OLMP}
+Because the performance measure of the thresholds is usually a discontinuous and non-differentiable function, so some off-the-shelf methods will not work.
+The idea of OLMP is to transform the threshold tuning problem in LMP method into a constrained optimization problem, and use powerful derivative-free optimization algorithms to solve it\cite{olmp}, which not require the problem to be either continuous or differentiable.
+\subsection{Application of OLMP}
+OLMP solve the main difficulty in applying LMP, which is the threshold tuning problem by automatically adjust threshold in LMP. This facilitate non-professional user to use LMP.
+\section{Parameter Description}
+%\begin{tabular}{|l|l|l|l|l}}
+%	\hline
+%	\multirow{2}*{parameters}&\multicolumn{3}{l}{final values and results}&\multirow{2}*{description}\\ \hline
+%	&F6&F12&OLMP
+%%	\multicolumn{cols}{pos}{text}
+%\end{tabular}
+\newpage
+% Please add the following required packages to your document preamble:
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+	\begin{tabular}{lllll}
+		\hline
+		\multicolumn{1}{|l|}{\multirow{2}{*}{Parameters}} & \multicolumn{3}{l|}{Final values and results} & \multicolumn{1}{l|}{Description} \\ \cline{2-5} 
+		\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{F6} & \multicolumn{1}{l|}{F12} & \multicolumn{1}{l|}{OLMP} & \multicolumn{1}{l|}{} \\ \hline
+		\multicolumn{1}{|l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}OLMP solve the main difficulty in applying LMP, \\ which is the threshold tuning problem by \\ automatically adjust threshold in LMP. \\ This facilitate non-profes\end{tabular}} \\ \hline
+		&  &  &  &  \\ \hline
+	\end{tabular}
+\end{table}
+
+
+
+\begin{tabu} to \hsize {|X[4.5]|X[7.3]|X[7.3]|X[7.3]|}
+	\hline
+	Parameters & F6 & F12 & OLMP \\ \hline
+	lambda & 1.0634784249490903 & 1.0272965968507801&1 \\ \hline
+	r & 0.846510390324858401 & 0.5457737248418668&2\\ \hline
+	epoch & 122 & 2845 &1 \\\hline
+	n&1& 2&50\\\hline
+	Final Result&390.000063739967&-459.9993145484682&0.98856381981171\\\hline
+	Running Time&47.38&32.16&60.29536557197571\\\hline
+	
+\end{tabu}
+
+
+\section{Tuning Procedure}
+
+\newpage
+%To determine the atomic weight of magnesium via its reaction with oxygen and to study the stoichiometry of the reaction (as defined in \ref{definitions}):
+
+%\begin{center}\ce{2 Mg + O2 -> 2 MgO}\end{center}
+
+% If you have more than one objective, uncomment the below:
+%\begin{description}
+%\item[First Objective] \hfill \\
+%Objective 1 text
+%\item[Second Objective] \hfill \\
+%Objective 2 text
+%\end{description}
+%\subsection{Algorithm}
+%This project use Minimax Algorithm and Alpha-Beta Pruning.\cite{2005_gomoku}
+
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\addcontentsline{toc}{section}{Reference}
+\begin{CJK}{UTF8}{gbsn} % Chinese reference support
+	\bibliographystyle{IEEEtran}
+	\bibliography{sample}
+\end{CJK}
+
+
+%----------------------------------------------------------------------------------------
+
+
+\end{document}

@@ -1,0 +1,6 @@
+PWD /home/ubuntu/ooad_sqlite/Projects/11712325_asdas
+INPUT /usr/local/texlive/2019/texmf.cnf
+INPUT /usr/local/texlive/2019/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2019/texmf-var/web2c/xetex/xelatex.fmt
+INPUT /home/ubuntu/ooad_sqlite/Projects/11712325_asdas/aaa.tex
+OUTPUT aaa.log

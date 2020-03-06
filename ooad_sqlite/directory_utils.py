@@ -1,3 +1,4 @@
+import zipfile
 from os import listdir, mkdir
 from os.path import isfile
 from os.path import splitext
@@ -41,8 +42,11 @@ class Directory:
 
     def create_folder(self, folder_name):
         if not os.path.exists(self.cur_path + folder_name):
+            mkdir(self.cur_path + folder_name+'/')
             print('create a folder!')
-            mkdir(self.cur_path + folder_name)
+            print(self.cur_path + folder_name)
+
+
 
     def copy_folder(self, folder_name):
         src_path = self.cur_path + folder_name
@@ -90,3 +94,12 @@ class Directory:
         assert not os.path.exists(new_path)
         os.rename(old_path, new_path)
         print('rename!')
+
+    def unzip(self, src_file_name, dst_folder):
+        zip_path = './Temp/zips/'
+        file_path = zip_path + src_file_name
+        zip_file = zipfile.ZipFile(file_path, 'r')
+        output_path = dst_folder
+        for file in zip_file.namelist():
+            zip_file.extract(file, output_path)
+        zip_file.close()
